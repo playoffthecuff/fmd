@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import {
+  ClerkProvider,
+  SignedIn,
+  UserButton,
+} from "@clerk/nextjs";
+import localFont from "next/font/local";
+import Link from "next/link";
+import { ThemeProvider } from "next-themes";
+import { ThemeToggle } from "./theme-toggle";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const robotoSans = localFont({ src: "./Roboto-Variable.ttf" });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,10 +23,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${robotoSans.className} bg-neutral min-h-screen flex flex-col`}>
+          <ThemeProvider
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            attribute={"class"}
+          >
+            <header className="px-16d py-8d bg-neutral-1 shadow-4d">
+              <div className="flex justify-between items-center gap-16d mx-auto xl:container">
+                <Link href="/" className="text-primary underline">FMD</Link>
+                <ThemeToggle/>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+              </div>
+            </header>
+            <main className="grow flex flex-col xl:container mx-auto">{children}</main>
+            <footer className="p-16d bg-neutral-1000">
+              <div className="xl:container mx-auto text-neutral-150">footer</div>
+            </footer>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
