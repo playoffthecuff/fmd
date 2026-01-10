@@ -9,7 +9,7 @@ export default async function Home() {
 			{/* <SignedIn>
       </SignedIn> */}
 			<SignedOut>
-				<div className="flex flex-col gap-20d p-16d bg-neutral-1 rounded-12d border-neutral border">
+				<div className="flex flex-col gap-20d p-16d bg-neutral-1 rounded-12d border-muted border">
 					<p>Hi! Sign in to start.</p>
 					<SignInButton>
 						<Button intent={"secondary"} appearance={"subtle"} lifted>
